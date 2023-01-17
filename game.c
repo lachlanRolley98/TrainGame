@@ -93,10 +93,10 @@ int main(int argc, char* argv[]){
      //then have a function that can use all the individuals pair and tripplets to find 10
      
      double a ,b ,c ,d ;
-     a = 1;
+     a = 10;
      b = 2;
-     c = 3;
-     d = 4;
+     c = 9;
+     d = 1;
 
      //create all individual combos
      nodeI* I_a = oneTooTwo(a);
@@ -113,21 +113,19 @@ int main(int argc, char* argv[]){
      nodeI_P_Trip* T_b_cd = I_PtooTrip(b,P_cd);    
      //create tripple from pair then individual
      nodeP_I_Trip* T_ab_c = P_ItooTrip(P_ab, c);                        
-     nodeP_I_Trip* T_bc_d = P_ItooTrip(P_ab, c);       
+     nodeP_I_Trip* T_bc_d = P_ItooTrip(P_bc, d);       
     
 
 
 /*
      1-5 can go into pairToTen, the number is added to tell print function what format
 
-     0   a (bc) d       custom
      1   (ab)(cd)       pair done
      2   a(b(cd))       pair done
      3   a((bc)d)       pair
      4   (a(bc))d       pair
      5   ((ab)c)d       pair
 */
-
      one_Ten(P_ab,P_cd); //(ab)(cd)       pair done
      two_Ten(I_a,T_b_cd);
      three_Ten(I_a, T_bc_d);
@@ -135,6 +133,7 @@ int main(int argc, char* argv[]){
      five_Ten(T_ab_c, I_d);
      
     
+     //Free all the malloc stuff
      free(I_a);
      free(I_b);
      free(I_c);
