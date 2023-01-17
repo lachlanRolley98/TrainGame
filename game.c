@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
-
-
-
 /*
    RULES:
        you get 4 numbers a b c d
@@ -18,8 +15,6 @@
 
      https://www.javatpoint.com/return-an-array-in-c         bottom one
    */   
-
-
 
 //node for individuals
 typedef struct nodeI {
@@ -65,23 +60,18 @@ typedef struct nodeP_I_Trip {
 } nodeP_I_Trip; 
      
 
-
-
 nodeP* twoTooThirteen(double x, double y);
 nodeI* oneTooTwo(double x);
 nodeI_P_Trip* I_PtooTrip(double x, nodeP* yz);
 nodeP_I_Trip* P_ItooTrip(nodeP* yz, double x);
 void P_ItooTripArray(nodeP* yz, double x, double *arrayPtr);
 
-void one_Ten(nodeP* ab, nodeP* cd);
+int one_Ten(nodeP* ab, nodeP* cd);
 void printPair(nodeP* ab, nodeP* cd, int i, int j, int k);
-void two_Ten(nodeI* a,  nodeI_P_Trip* bcd);
-void three_Ten(nodeI* a, nodeP_I_Trip* bcd);
-void four_Ten(nodeI_P_Trip* abc, nodeI* d);
-void five_Ten(nodeP_I_Trip* abc, nodeI* d);
-
-
-
+int two_Ten(nodeI* a,  nodeI_P_Trip* bcd);
+int three_Ten(nodeI* a, nodeP_I_Trip* bcd);
+int four_Ten(nodeI_P_Trip* abc, nodeI* d);
+int five_Ten(nodeP_I_Trip* abc, nodeI* d);
 
 
 int main(int argc, char* argv[]){
@@ -93,10 +83,10 @@ int main(int argc, char* argv[]){
      //then have a function that can use all the individuals pair and tripplets to find 10
      
      double a ,b ,c ,d ;
-     a = 10;
-     b = 2;
-     c = 9;
-     d = 1;
+     a = 8;
+     b = 1;
+     c = 4;
+     d = 3;
 
      //create all individual combos
      nodeI* I_a = oneTooTwo(a);
@@ -114,8 +104,6 @@ int main(int argc, char* argv[]){
      //create tripple from pair then individual
      nodeP_I_Trip* T_ab_c = P_ItooTrip(P_ab, c);                        
      nodeP_I_Trip* T_bc_d = P_ItooTrip(P_bc, d);       
-    
-
 
 /*
      1-5 can go into pairToTen, the number is added to tell print function what format
@@ -126,11 +114,29 @@ int main(int argc, char* argv[]){
      4   (a(bc))d       pair
      5   ((ab)c)d       pair
 */
-     one_Ten(P_ab,P_cd); //(ab)(cd)       pair done
-     two_Ten(I_a,T_b_cd);
-     three_Ten(I_a, T_bc_d);
-     four_Ten(T_a_bc, I_d);
-     five_Ten(T_ab_c, I_d);
+     
+     //ok so basically, if any of these functions finds 10, they return 1, if not they return 0;
+     //they also print out how they got 10.
+
+     int tenFound = 0;
+     if(one_Ten(P_ab,P_cd) == 1){
+          //cool beans can skip the rest, gota be a better way to do this
+     }
+     else if(two_Ten(I_a,T_b_cd) == 1){
+          //cool beans can skip the rest, gota be a better way to do this
+     }
+     else if(three_Ten(I_a, T_bc_d)){
+          //cool beans can skip the rest, gota be a better way to do this
+     }
+     else if(four_Ten(T_a_bc, I_d) == 1){
+          //cool beans can skip the rest, gota be a better way to do this
+     }
+     else if(five_Ten(T_ab_c, I_d) == 1){
+          //cool beans can skip the rest, gota be a better way to do this
+     }
+     else{
+          printf("No Solution :(\n");
+     }
      
     
      //Free all the malloc stuff
@@ -500,9 +506,8 @@ nodeP_I_Trip* P_ItooTrip(nodeP* yz, double x){
      return body;
 }
 
-
 // 1   (ab)(cd)       pair done
-void one_Ten(nodeP* ab, nodeP* cd){
+int one_Ten(nodeP* ab, nodeP* cd){
      
      size_t a = sizeof(ab->results)/sizeof(ab->results[0]);
      size_t c = sizeof(cd->results)/sizeof(cd->results[0]);
@@ -512,13 +517,14 @@ void one_Ten(nodeP* ab, nodeP* cd){
      for(int i = 0; i < ab_length; i++){
           for(int j = 0; j < cd_length; j++){          
                //printf("ab cd : %lf %lf", ab->results[i], cd->results[j]);
-               if(ab->results[i] + cd->results[j] == 10){printPair(ab,cd,i,j,0); return;}
-               if(ab->results[i] - cd->results[j] == 10){printPair(ab,cd,i,j,1); return;}
-               if(ab->results[i] * cd->results[j] == 10){printPair(ab,cd,i,j,2); return;}
-               if(ab->results[i] / cd->results[j] == 10){printPair(ab,cd,i,j,3); return;}
-               if(pow((ab->results[i]),(cd->results[j])) == 10){printPair(ab,cd,i,j,4); return;}
+               if(ab->results[i] + cd->results[j] == 10){printPair(ab,cd,i,j,0); return 1;}
+               if(ab->results[i] - cd->results[j] == 10){printPair(ab,cd,i,j,1); return 1;}
+               if(ab->results[i] * cd->results[j] == 10){printPair(ab,cd,i,j,2); return 1;}
+               if(ab->results[i] / cd->results[j] == 10){printPair(ab,cd,i,j,3); return 1;}
+               if(pow((ab->results[i]),(cd->results[j])) == 10){printPair(ab,cd,i,j,4); return 1;}
           }
      }
+     return 0;
 }
 void printPair(nodeP* ab, nodeP* cd, int i, int j, int k){
     
@@ -658,7 +664,7 @@ void printPair(nodeP* ab, nodeP* cd, int i, int j, int k){
 }
 
 // 2   a(b(cd))       pair
-void two_Ten(nodeI* a,  nodeI_P_Trip* bcd){
+int two_Ten(nodeI* a,  nodeI_P_Trip* bcd){
      size_t a1 = sizeof(a->results)/sizeof(a->results[0]);
      size_t c1 = sizeof(bcd->results)/sizeof(bcd->results[0]);
      int ab_length = (int)(a1);
@@ -668,31 +674,32 @@ void two_Ten(nodeI* a,  nodeI_P_Trip* bcd){
                
                if(a->results[i] + bcd->results[j] == 10){
                     printf("%lf + %s\n", a->results[i], bcd->strings[j]);
-                    return;
+                    return 1;
                }
           
                if(a->results[i] - bcd->results[j] == 10){
                     printf("%lf - %s\n", a->results[i], bcd->strings[j]);
-                    return;     
+                    return 1;     
                }
                if(a->results[i] * bcd->results[j] == 10){
                     printf("%lf * %s\n", a->results[i], bcd->strings[j]);
-                    return;
+                    return 1;
                }
                if(a->results[i] / bcd->results[j] == 10){
                     printf("%lf / %s\n", a->results[i], bcd->strings[j]);
-                    return;
+                    return 1;
                }
                if(pow((a->results[i]),(bcd->results[j])) == 10){
                     printf("%lf ^ %s\n", a->results[i], bcd->strings[j]);
-                    return;
+                    return 1;
                }
           }
      }
+     return 0;
 }
 
 //3   a((bc)d)       pair
-void three_Ten(nodeI* a, nodeP_I_Trip* bcd){
+int three_Ten(nodeI* a, nodeP_I_Trip* bcd){
      size_t a1 = sizeof(a->results)/sizeof(a->results[0]);
      size_t c1 = sizeof(bcd->results)/sizeof(bcd->results[0]);
      int ab_length = (int)(a1);
@@ -702,30 +709,31 @@ void three_Ten(nodeI* a, nodeP_I_Trip* bcd){
                
                if(a->results[i] + bcd->results[j] == 10){
                     printf("%lf + %s\n", a->results[i], bcd->strings[j]);
-                    return;
+                    return 1;
                }
           
                if(a->results[i] - bcd->results[j] == 10){
                     printf("%lf - %s\n", a->results[i], bcd->strings[j]);
-                    return;     
+                    return 1;     
                }
                if(a->results[i] * bcd->results[j] == 10){
                     printf("%lf * %s\n", a->results[i], bcd->strings[j]);
-                    return;
+                    return 1;
                }
                if(a->results[i] / bcd->results[j] == 10){
                     printf("%lf / %s\n", a->results[i], bcd->strings[j]);
-                    return;
+                    return 1;
                }
                if(pow((a->results[i]),(bcd->results[j])) == 10){
                     printf("%lf ^ %s\n", a->results[i], bcd->strings[j]);
-                    return;
+                    return 1;
                }
           }
      }
+     return 0;
 }
 //     4   (a(bc))d       pair
-void four_Ten(nodeI_P_Trip* abc, nodeI* d){
+int four_Ten(nodeI_P_Trip* abc, nodeI* d){
      size_t a1 = sizeof(abc->results)/sizeof(abc->results[0]);
      size_t c1 = sizeof(d->results)/sizeof(d->results[0]);
      int ab_length = (int)(a1);
@@ -735,30 +743,31 @@ void four_Ten(nodeI_P_Trip* abc, nodeI* d){
                
                if(abc->results[i] + d->results[j] == 10){
                     printf("%s + %lf\n", abc->strings[i], d->results[j]);
-                    return;
+                    return 1;
                }
           
                if(abc->results[i] - d->results[j] == 10){
                     printf("%s - %lf\n", abc->strings[i], d->results[j]);
-                    return;     
+                    return 1;     
                }
                if(abc->results[i] * d->results[j] == 10){
                     printf("%s * %lf\n", abc->strings[i], d->results[j]);
-                    return;
+                    return 1;
                }
                if(abc->results[i] / d->results[j] == 10){
                     printf("%s / %lf\n", abc->strings[i], d->results[j]);
-                    return;
+                    return 1;
                }
                if(pow((abc->results[i]),(d->results[j])) == 10){
                     printf("%s ^ %lf\n", abc->strings[i], d->results[j]);
-                    return;
+                    return 1;
                }
           }
      }
+     return 0;
 }
 // 5   ((ab)c)d       
-void five_Ten(nodeP_I_Trip* abc, nodeI* d){
+int five_Ten(nodeP_I_Trip* abc, nodeI* d){
      size_t a1 = sizeof(abc->results)/sizeof(abc->results[0]);
      size_t c1 = sizeof(d->results)/sizeof(d->results[0]);
      int ab_length = (int)(a1);
@@ -768,27 +777,28 @@ void five_Ten(nodeP_I_Trip* abc, nodeI* d){
                
                if(abc->results[i] + d->results[j] == 10){
                     printf("%s + %lf\n", abc->strings[i], d->results[j]);
-                    return;
+                    return 1;
                }
           
                if(abc->results[i] - d->results[j] == 10){
                     printf("%s - %lf\n", abc->strings[i], d->results[j]);
-                    return;     
+                    return 1;     
                }
                if(abc->results[i] * d->results[j] == 10){
                     printf("%s * %lf\n", abc->strings[i], d->results[j]);
-                    return;
+                    return 1;
                }
                if(abc->results[i] / d->results[j] == 10){
                     printf("%s / %lf\n", abc->strings[i], d->results[j]);
-                    return;
+                    return 1;
                }
                if(pow((abc->results[i]),(d->results[j])) == 10){
                     printf("%s ^ %lf\n", abc->strings[i], d->results[j]);
-                    return;
+                    return 1;
                }
           }
      }
+     return 0;
 }
 
 
