@@ -1,7 +1,9 @@
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <malloc.h>
+#include <string.h>
 
 
 
@@ -46,6 +48,7 @@ typedef struct nodeI_P_Trip {
      double val_2;
      double val_3;
      double results[169];
+     char strings[169][51];
      struct node* next;
 
 } nodeI_P_Trip; 
@@ -56,6 +59,7 @@ typedef struct nodeP_I_Trip {
      double val_2;
      double val_3;
      double results[169];
+     char strings[169][51];  // cant malloc this then dymanically give it different lengths in the code
      struct node* next;
 
 } nodeP_I_Trip; 
@@ -70,6 +74,9 @@ nodeP_I_Trip* P_ItooTrip(nodeP* yz, double x);
 void P_ItooTripArray(nodeP* yz, double x, double *arrayPtr);
 void pairToTen(nodeP* ab, nodeP* cd);
 void printPair(nodeP* ab, nodeP* cd, int i, int j, int k);
+
+void twoTooTen(nodeI* a,  nodeI_P_Trip* bcd);
+
 
 
 
@@ -101,23 +108,25 @@ int main(int argc, char* argv[]){
      nodeI_P_Trip* T_a_bc = I_PtooTrip(a,P_bc);
      nodeI_P_Trip* T_b_cd = I_PtooTrip(b,P_cd);    
      //create tripple from pair then individual
-     nodeP_I_Trip* T_ab_c = P_ItooTrip(P_ab, c);        // THIS ONE WORKS                  
-     nodeP_I_Trip* T_bc_d = P_ItooTrip(P_ab, c);        // HANGS IN THIS
+     nodeP_I_Trip* T_ab_c = P_ItooTrip(P_ab, c);                        
+     nodeP_I_Trip* T_bc_d = P_ItooTrip(P_ab, c);       
     
 
 
 /*
-     a (bc) d       custom
-     (ab)(cd)       pair
-     a(b(cd))       pair
-     a((bc)d)       pair
-     (a(bc))d       pair
-     ((ab)c)d       pair
+     1-5 can go into pairToTen, the number is added to tell print function what format
+
+     0   a (bc) d       custom
+     1   (ab)(cd)       pair done
+     2   a(b(cd))       pair
+     3   a((bc)d)       pair
+     4   (a(bc))d       pair
+     5   ((ab)c)d       pair
 */
 
-     pairToTen(P_ab,P_cd);
+     pairToTen(P_ab,P_cd); //(ab)(cd)       pair done
 
-
+    
      free(I_a);
      free(I_b);
      free(I_c);
@@ -196,6 +205,8 @@ nodeP* twoTooThirteen(double x, double y){
 //get all the values that can be made with a tripple pair a (bc)
 nodeI_P_Trip* I_PtooTrip(double x, nodeP* yz){
 
+     printf("Starting\n\n");
+     
      nodeI_P_Trip* body = NULL;
      body = (nodeI_P_Trip*) malloc(sizeof(nodeI_P_Trip));
      if(body == NULL){
@@ -206,26 +217,136 @@ nodeI_P_Trip* I_PtooTrip(double x, nodeP* yz){
      body->val_2 = yz->val_1;
      body->val_3 = yz->val_2;
 
+     
      for(int i = 0; i < 13 ; i++){ 
-          //printf("x is %lf, yz is %lf\n\n",x,yz->results[i]);
-          body->results[0 + (13*i)] = x + yz->results[i];
-          body->results[1 + (13*i)] = x - yz->results[i];
-          body->results[2 + (13*i)] = x * yz->results[i];
-          body->results[3 + (13*i)] = x / yz->results[i];
-          body->results[4 + (13*i)] = pow(x,yz->results[i]);         //x ^ y;
-          body->results[5 + (13*i)] = pow(x,(-yz->results[i]));      //x ^ (-y)
-          body->results[6 + (13*i)] = -x + yz->results[i];
-          body->results[7 + (13*i)] = -x - yz->results[i];
-          body->results[8 + (13*i)] = -x * yz->results[i] ;
-          body->results[9 + (13*i)] = -x / yz->results[i] ;
-          body->results[10 + (13*i)] = pow((-x),yz->results[i]);     //-x ^ y
-          body->results[11 + (13*i)] = -x + (-yz->results[i]);
-          body->results[12 + (13*i)] = pow((-x),(-yz->results[i]));  //-x ^ (-y);
-     }
+          double a, b;
+          a = yz->val_1;
+          b = yz->val_2;
+          char c1;
+          //this switch figures out what in the smaller bracket
+          switch(i){
+               case 0:
+                    c1 = '+';
+                    break;
+               case 1:
+                    c1 = '-';
+                    break; 
+               case 2:
+                    c1 = '*';
+                    break;
+               case 3:
+                    c1 = '/';
+                    break; 
+               case 4:
+                    c1 = '^';
+                    break;
+               case 5:
+                    c1 = '^';
+                    b = -b;
+                    break; 
+               case 6:
+                    c1 = '+';
+                    a = -a;
+                    break;
+               case 7:
+                    c1 = '-';
+                    a = -a;
+                    break;     
+               case 8:
+                    c1 = '*';
+                    a = -a;
+                    break;
+               case 9:
+                    c1 = '/';
+                    a = -a;
+                    break; 
+               case 10:
+                    c1 = '^';
+                    a = -a;
+                    break;
+               case 11:
+                    c1 = '-';
+                    a = -a;
+                    b = -b;
+                    break; 
+               case 12:     
+                    c1 = '^';
+                    a = -a;
+                    b = -b; 
+                    break;             
+          }
 
-     //for(int i = 0; i < 169; i++){
-     //     printf("%d is : %lf\n",i, body->results[i]);
-     //}
+          char buffer[50]; // im gona use sprintf to first put it in this buffer then copy the buffer over to the struct string cos asprintf isnt working (undefined)
+          // find the results and also save a string of the equation
+          body->results[0 + (13*i)] = x + yz->results[i];
+          sprintf(buffer, "(%lf +(%lf %c %lf))",x, a, c1, b );    // im thihnking this shit wont work cos we are mallocing the big boy and it has no idea how long these strings are gona be
+          strcpy(body->strings[0 + (13*i)], buffer);
+          
+          body->results[1 + (13*i)] = x - yz->results[i];
+          sprintf(buffer, "(%lf -(%lf %c %lf))",x, a, c1, b );
+          strcpy(body->strings[1 + (13*i)], buffer);
+
+
+          body->results[2 + (13*i)] = x * yz->results[i];
+          sprintf(buffer, "(%lf *(%lf %c %lf))",x, a, c1, b );
+          strcpy(body->strings[2 + (13*i)], buffer);
+
+
+          body->results[3 + (13*i)] = x / yz->results[i];
+          sprintf(buffer, "(%lf /(%lf %c %lf))",x, a, c1, b );
+          strcpy(body->strings[3 + (13*i)], buffer);
+
+
+          body->results[4 + (13*i)] = pow(x,yz->results[i]);         //x ^ y;
+          sprintf(buffer, "(%lf ^(%lf %c %lf))",x, a, c1, b );
+          strcpy(body->strings[4 + (13*i)], buffer);
+
+
+          body->results[5 + (13*i)] = pow(x,(-yz->results[i]));      //x ^ (-y)
+          sprintf(buffer, "(%lf ^(-(%lf %c %lf)))",x, a, c1, b );
+          strcpy(body->strings[5 + (13*i)], buffer);
+
+
+          body->results[6 + (13*i)] = -x + yz->results[i];
+          sprintf(buffer, "(%lf +(%lf %c %lf))",-x, a, c1, b );
+          strcpy(body->strings[6 + (13*i)], buffer);
+
+
+          body->results[7 + (13*i)] = -x - yz->results[i];
+          sprintf(buffer, "(%lf -(%lf %c %lf))",-x, a, c1, b );
+          strcpy(body->strings[7 + (13*i)], buffer);
+
+
+          body->results[8 + (13*i)] = -x * yz->results[i] ;
+          sprintf(buffer, "(%lf *(%lf %c %lf))",-x, a, c1, b );
+          strcpy(body->strings[8 + (13*i)], buffer);
+
+
+          body->results[9 + (13*i)] = -x / yz->results[i] ;
+          sprintf(buffer, "(%lf /(%lf %c %lf))",-x, a, c1, b );
+          strcpy(body->strings[9 + (13*i)], buffer);
+
+
+          body->results[10 + (13*i)] = pow((-x),yz->results[i]);     //-x ^ y
+          sprintf(buffer, "(%lf ^(%lf %c %lf))",-x, a, c1, b );
+          strcpy(body->strings[10 + (13*i)], buffer);
+
+
+          body->results[11 + (13*i)] = -x + (-yz->results[i]);
+          sprintf(buffer, "(%lf -(%lf %c %lf))",-x, a, c1, b );
+          strcpy(body->strings[11 + (13*i)], buffer);
+
+
+          body->results[12 + (13*i)] = pow((-x),(-yz->results[i]));  //-x ^ (-y);
+          sprintf(buffer, "(%lf ^(-(%lf %c %lf)))",-x, a, c1, b );
+          strcpy(body->strings[12 + (13*i)], buffer);
+
+
+     }
+     
+     for(int i = 0; i < 169; i++){
+          printf("%s\n",body->strings[i]);
+     }
 
 
      return NULL;
@@ -275,16 +396,14 @@ nodeP_I_Trip* P_ItooTrip(nodeP* yz, double x){
 }
 
 
-
+// 1   (ab)(cd)       pair done
 void pairToTen(nodeP* ab, nodeP* cd){
      
-
      size_t a = sizeof(ab->results)/sizeof(ab->results[0]);
      size_t c = sizeof(cd->results)/sizeof(cd->results[0]);
      int ab_length = (int)(a);
      int cd_length = (int)(c);
      
-
      for(int i = 0; i < ab_length; i++){
           for(int j = 0; j < cd_length; j++){          
                //printf("ab cd : %lf %lf", ab->results[i], cd->results[j]);
@@ -296,12 +415,8 @@ void pairToTen(nodeP* ab, nodeP* cd){
           }
      }
 }
-
-
 void printPair(nodeP* ab, nodeP* cd, int i, int j, int k){
     
-     
-
      double a, b, c, d;
      char c1, c2, c3;
      a = ab->val_1;
@@ -403,7 +518,7 @@ void printPair(nodeP* ab, nodeP* cd, int i, int j, int k){
                c = -c;
                break;
           case 11:
-               c3 = '-';
+               c3 = '+';
                c = -c;
                d = -d;
                break; 
@@ -431,41 +546,30 @@ void printPair(nodeP* ab, nodeP* cd, int i, int j, int k){
                break;
                   
      }
-     
-     /*
-     body->results[0] = x + y;
-     body->results[1] = x - y;
-     body->results[2] = x * y;
-     body->results[3] = x / y;
-     body->results[4] = pow(x,y);         //x ^ y;
-     body->results[5] = pow(x,(-y));      //x ^ (-y)
-     body->results[6] = -x + y;
-     body->results[7] = -x - y;
-     body->results[8] = -x * y ;
-     body->results[9] = -x / y ;
-     body->results[10] = pow((-x),y);     //-x ^ y
-     body->results[11] = -x + (-y);
-     body->results[12] = pow((-x),(-y));  //-x ^ (-y);
-     */
-
-
-
-
-
-
-
-
-
-
+    
+     //printf("(%lf %c %lf) %c (%lf %c %lf)                %d %d %d\n",a,c1,b,c2,c,c3,d,i,j,k);
      printf("(%lf %c %lf) %c (%lf %c %lf)\n",a,c1,b,c2,c,c3,d);
      
-     fflush(stdout);
-     return;
 }
 
-
-
-
+// 2   a(b(cd))       pair
+void twoTooTen(nodeI* a,  nodeI_P_Trip* bcd){
+     size_t a1 = sizeof(a->results)/sizeof(a->results[0]);
+     size_t c1 = sizeof(bcd->results)/sizeof(bcd->results[0]);
+     int ab_length = (int)(a1);
+     int cd_length = (int)(c1);
+     
+     for(int i = 0; i < ab_length; i++){
+          for(int j = 0; j < cd_length; j++){          
+               //printf("ab cd : %lf %lf", ab->results[i], cd->results[j]);
+               if(a->results[i] + bcd->results[j] == 10){;}
+               if(a->results[i] - bcd->results[j] == 10){;}
+               if(a->results[i] * bcd->results[j] == 10){;}
+               if(a->results[i] / bcd->results[j] == 10){;}
+               if(pow((a->results[i]),(bcd->results[j])) == 10){;}
+          }
+     }
+}
 
 
 
