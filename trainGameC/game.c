@@ -43,7 +43,7 @@ typedef struct nodeI_P_Trip {
      double val_2;
      double val_3;
      double results[169];
-     char strings[169][51];
+     char strings[169][51]; // 169 combos each 51 long
      struct node* next;
 
 } nodeI_P_Trip; 
@@ -54,7 +54,7 @@ typedef struct nodeP_I_Trip {
      double val_2;
      double val_3;
      double results[169];
-     char strings[169][51];  
+     char strings[169][51];  // 169 combos each 51 long
      struct node* next;
 
 } nodeP_I_Trip; 
@@ -83,10 +83,10 @@ int main(int argc, char* argv[]){
      //then have a function that can use all the individuals pair and tripplets to find 10
      
      double a ,b ,c ,d ;
-     a = 8;
-     b = 1;
-     c = 4;
-     d = 3;
+     a = 1;
+     b = 2;
+     c = 3;
+     d = 4;
 
      //create all individual combos
      nodeI* I_a = oneTooTwo(a);
