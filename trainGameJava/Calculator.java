@@ -10,6 +10,8 @@ public class Calculator{
         nodeP_I_Trip c = new nodeP_I_Trip(a, 3);
 
         for(int i = 0; i < 169; i++){
+            System.out.println(b.results[i] + " ");
+            System.out.println(b.strings.get(i));
             System.out.println(c.results[i] + " ");
             System.out.println(c.strings.get(i));
         }
