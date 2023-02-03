@@ -17,6 +17,7 @@ public class nodeP_I_Trip {
         this.results = new double[169];
         this.strings = new ArrayList<>();
 
+        
 
         //printf("maybe here too ?\n");
      for(int i = 0; i < 13 ; i++){ 

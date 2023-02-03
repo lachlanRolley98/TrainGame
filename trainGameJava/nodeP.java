@@ -4,6 +4,7 @@ public class nodeP {
     public double val_2;
     public double results[];
     
+    
 
     public nodeP(double x, double y){
         
@@ -25,5 +26,7 @@ public class nodeP {
         this.results[11] = -x + (-y);
         this.results[12] = Math.pow((-x),(-y));  //-x ^ (-y);
     }
+
+    
     
 }
