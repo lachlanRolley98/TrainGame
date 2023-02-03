@@ -4,6 +4,7 @@ public class nodeI {
     public double results[];
 
     public nodeI(double x){
+        
         this.val_1 = x;
         
         this.results = new double[2];

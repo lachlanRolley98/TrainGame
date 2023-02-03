@@ -8,7 +8,7 @@ public class nodeP {
     public nodeP(double x, double y){
         
         this.results = new double[13];
-
+        
         this.val_1 = x;
         this.val_2 = y;
         this.results[0] = x + y;
@@ -24,9 +24,6 @@ public class nodeP {
         this.results[10] = Math.pow((-x),y);     //-x ^ y
         this.results[11] = -x + (-y);
         this.results[12] = Math.pow((-x),(-y));  //-x ^ (-y);
-
-        System.out.println("done\n");
-
     }
     
 }

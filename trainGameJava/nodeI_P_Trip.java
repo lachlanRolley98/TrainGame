@@ -10,93 +10,81 @@ public class nodeI_P_Trip {
     public List<String> strings; 
 
     public nodeI_P_Trip(double x, nodeP yz){
-        this.val_1 = x;
-        this.val_2 = yz.val_1;
-        this.val_3 = yz.val_2;
-        this.results = new double[169];
-        this.strings = new ArrayList<>();
+          this.val_1 = x;
+          this.val_2 = yz.val_1;
+          this.val_3 = yz.val_2;
+          this.results = new double[169];
+          this.strings = new ArrayList<>();
         
 
-        for(int i = 0; i < 13 ; i++){ 
-            double a, b;
-            a = yz.val_1;
-            b = yz.val_2;
-            char c1;
-            //this switch figures out what in the smaller bracket
-            switch(i){
-                 case 0:
-                      c1 = '+';
-                      break;
-                 case 1:
-                      c1 = '-';
-                      break; 
-                 case 2:
-                      c1 = '*';
-                      break;
-                 case 3:
-                      c1 = '/';
-                      break; 
-                 case 4:
-                      c1 = '^';
-                      break;
-                 case 5:
-                      c1 = '^';
-                      b = -b;
-                      break; 
-                 case 6:
-                      c1 = '+';
-                      a = -a;
-                      break;
-                 case 7:
-                      c1 = '-';
-                      a = -a;
-                      break;     
-                 case 8:
-                      c1 = '*';
-                      a = -a;
-                      break;
-                 case 9:
-                      c1 = '/';
-                      a = -a;
-                      break; 
-                 case 10:
-                      c1 = '^';
-                      a = -a;
-                      break;
-                 case 11:
-                      c1 = '-';
-                      a = -a;
-                      b = -b;
-                      break; 
-                 case 12:     
-                      c1 = '^';
-                      a = -a;
-                      b = -b; 
-                      break;  
-                 default:
-                    c1 = 'f';
+          for(int i = 0; i < 13 ; i++){ 
+               double a, b;
+               a = yz.val_1;
+               b = yz.val_2;
+               char c1;
+               //this switch figures out what in the smaller bracket
+               switch(i){
+                    case 0:
+                         c1 = '+';
+                         break;
+                    case 1:
+                         c1 = '-';
+                         break; 
+                    case 2:
+                         c1 = '*';
+                         break;
+                    case 3:
+                         c1 = '/';
+                         break; 
+                    case 4:
+                         c1 = '^';
+                         break;
+                    case 5:
+                         c1 = '^';
+                         b = -b;
+                         break; 
+                    case 6:
+                         c1 = '+';
+                         a = -a;
+                         break;
+                    case 7:
+                         c1 = '-';
+                         a = -a;
+                         break;     
+                    case 8:
+                         c1 = '*';
+                         a = -a;
+                         break;
+                    case 9:
+                         c1 = '/';
+                         a = -a;
+                         break; 
+                    case 10:
+                         c1 = '^';
+                         a = -a;
+                         break;
+                    case 11:
+                         c1 = '-';
+                         a = -a;
+                         b = -b;
+                         break; 
+                    case 12:     
+                         c1 = '^';
+                         a = -a;
+                         b = -b; 
+                         break;  
+                    default:
+                         c1 = 'f';
 
-            }
+               }
   
-            String buffer = new String(); ;// im gona use sprintf to first put it in this buffer then copy the buffer over to the struct string cos asprintf isnt working (undefined)
+          String buffer = new String(); ;// im gona use sprintf to first put it in this buffer then copy the buffer over to the struct string cos asprintf isnt working (undefined)
             // find the results and also save a string of the equation 
             
-          System.out.println("sup\n");
-            
-            System.out.println(x +" "+ a+" " + c1+" " + b);
-            System.out.println("sup\n");
-
-
-
-
-
-
-
           this.results[0 + (13*i)] = x + yz.results[i];
           buffer = String.format("(%f +(%f %c %f))",x, a, c1, b );   
           this.strings.add(0+(13*i), buffer); 
-          
-          
+                    
           this.results[1 + (13*i)] = x - yz.results[i];
           buffer = String.format("(%f -(%f %c %f))",x, a, c1, b );
           this.strings.add( 1+(13*i), buffer); 
@@ -144,18 +132,7 @@ public class nodeI_P_Trip {
           this.results[12 + (13*i)] = Math.pow((-x),(-yz.results[i]));  //-x ^ (-y);
           buffer = String.format("(%f ^(-(%f %c %f)))",-x, a, c1, b );
           this.strings.add( 12+(13*i), buffer); 
-
-
-
-
-
-
-            
-  
-  
-       }
-
-
+          }
 
     }
     
