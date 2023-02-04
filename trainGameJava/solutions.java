@@ -144,7 +144,8 @@ public class solutions {
 
         //printf("(%f %c %f) %c (%f %c %f)                %d %d %d\n",a,c1,b,c2,c,c3,d,i,j,k);
         String buffer = new String();
-        buffer = String.format("(%f %c %f) %c (%f %c %f)\n",a,c1,b,c2,c,c3,d); 
+        
+        buffer = String.format("(%d %c %d) %c (%d %c %d)\n",(int)a,c1,(int)b,c2,(int)c,c3,(int)d); 
         strings.add(buffer);
     }
     
@@ -170,5 +171,13 @@ public class solutions {
 
     public void numAnswers(){
         System.out.println(strings.size());
+    }
+    
+    public String returnOneAnswer(){
+        if(strings.size() != 0){
+            return strings.get(0);
+        }else{
+            return "No answer";
+        }
     }
 }

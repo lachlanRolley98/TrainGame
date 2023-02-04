@@ -7,10 +7,10 @@ public class Calculator{
 
         solutions sols = new solutions();
         double a ,b ,c ,d ;
-        a = 1;
-        b = 2;
-        c = 1;
-        d = 1;
+        a = 9;
+        b = 9;
+        c = 3;
+        d = 4;
 
         //create all individual combos
         nodeI I_a = new nodeI(a);
@@ -47,17 +47,8 @@ public class Calculator{
 
         //sols.printAllStrings();
         //sols.numAnswers();
-        sols.printOneAnswer();
-
-        
-        
-        
-
-        
-        
-
-
-
-
+        sols.printOneAnswer();           
     }
+
+    
 }

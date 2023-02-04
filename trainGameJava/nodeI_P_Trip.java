@@ -80,57 +80,59 @@ public class nodeI_P_Trip {
   
           String buffer = new String(); ;// im gona use sprintf to first put it in this buffer then copy the buffer over to the struct string cos asprintf isnt working (undefined)
             // find the results and also save a string of the equation 
-            
+          
+          
+
           this.results[0 + (13*i)] = x + yz.results[i];
-          buffer = String.format("(%f +(%f %c %f))",x, a, c1, b );   
+          buffer = String.format("(%d +(%d %c %d))",(int)x, (int)a, c1, (int)b );   
           this.strings.add(0+(13*i), buffer); 
                     
           this.results[1 + (13*i)] = x - yz.results[i];
-          buffer = String.format("(%f -(%f %c %f))",x, a, c1, b );
+          buffer = String.format("(%d -(%d %c %d))",(int)x, (int)a, c1,(int) b );
           this.strings.add( 1+(13*i), buffer); 
 
           this.results[2 + (13*i)] = x * yz.results[i];
-          buffer = String.format("(%f *(%f %c %f))",x, a, c1, b );
+          buffer = String.format("(%d *(%d %c %d))",(int)x, (int)a, c1, (int)b );
           this.strings.add( 2+(13*i), buffer); 
 
           this.results[3 + (13*i)] = x / yz.results[i];
-          buffer = String.format("(%f /(%f %c %f))",x, a, c1, b );
+          buffer = String.format("(%d /(%d %c %d))",(int)x, (int)a, c1,(int)b );
           this.strings.add( 3+(13*i), buffer); 
 
           this.results[4 + (13*i)] = Math.pow(x,yz.results[i]);         //x ^ y;
-          buffer = String.format("(%f ^(%f %c %f))",x, a, c1, b );
+          buffer = String.format("(%d ^(%d %c %d))",(int)x,(int) a, c1,(int) b );
           this.strings.add( 4+(13*i), buffer); 
 
           this.results[5 + (13*i)] = Math.pow(x,(-yz.results[i]));      //x ^ (-y)
-          buffer = String.format("(%f ^(-(%f %c %f)))",x, a, c1, b );
+          buffer = String.format("(%d ^(-(%d %c %d)))",(int)x, (int)a, c1, (int)b );
           this.strings.add( 5+(13*i), buffer); 
 
           this.results[6 + (13*i)] = -x + yz.results[i];
-          buffer = String.format("(%f +(%f %c %f))",-x, a, c1, b );
+          buffer = String.format("(%d +(%d %c %d))",(int)-x, (int)a, c1, (int)b );
           this.strings.add( 6+(13*i), buffer); 
 
           this.results[7 + (13*i)] = -x - yz.results[i];
-          buffer = String.format("(%f -(%f %c %f))",-x, a, c1, b );
+          buffer = String.format("(%d -(%d %c %d))",(int)-x, (int)a, c1, (int)b );
           this.strings.add( 7+(13*i), buffer); 
 
           this.results[8 + (13*i)] = -x * yz.results[i] ;
-          buffer = String.format("(%f *(%f %c %f))",-x, a, c1, b );
+          buffer = String.format("(%d *(%d %c %d))",(int)-x, (int)a, c1, (int)b );
           this.strings.add( 8+(13*i), buffer); 
 
           this.results[9 + (13*i)] = -x / yz.results[i] ;
-          buffer = String.format("(%f /(%f %c %f))",-x, a, c1, b );
+          buffer = String.format("(%d /(%d %c %d))",(int)-x, (int)a, c1, (int)b );
           this.strings.add( 9+(13*i), buffer); 
 
           this.results[10 + (13*i)] = Math.pow((-x),yz.results[i]);     //-x ^ y
-          buffer = String.format("(%f ^(%f %c %f))",-x, a, c1, b );
+          buffer = String.format("(%d ^(%d %c %d))",(int)-x, (int)a, c1, (int)b );
           this.strings.add( 10+(13*i), buffer); 
 
           this.results[11 + (13*i)] = -x + (-yz.results[i]);
-          buffer = String.format("(%f -(%f %c %f))",-x, a, c1, b );
+          buffer = String.format("(%d -(%d %c %d))",(int)-x, (int)a, c1, (int)b );
           this.strings.add( 11+(13*i), buffer); 
 
           this.results[12 + (13*i)] = Math.pow((-x),(-yz.results[i]));  //-x ^ (-y);
-          buffer = String.format("(%f ^(-(%f %c %f)))",-x, a, c1, b );
+          buffer = String.format("(%d ^(-(%d %c %d)))",(int)-x, (int)a, c1, (int)b );
           this.strings.add( 12+(13*i), buffer); 
           }
 
